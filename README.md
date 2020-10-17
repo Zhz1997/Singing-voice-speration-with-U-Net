@@ -38,6 +38,11 @@ The purpose of this project is to decompose a music audio signal into its vocal 
 <br>
 
 ![Image](img/u-net-architecture.png)
+
+---
+### Cool Reads
++ U-Net tutorial: https://www.youtube.com/watch?v=azM57JuQpQI&t=552s&ab_channel=DigitalSreeni
++ Basic project structure: https://towardsdatascience.com/manage-your-data-science-project-structure-in-early-stage-95f91d4d0600
     
 ---
 <br>
