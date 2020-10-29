@@ -37,7 +37,7 @@ The purpose of this project is to decompose a music audio signal into its vocal 
 
 <br>
 
-![Image](img/u-net-architecture.png)
+![Image](notebook/img/u-net-architecture.png)
 
 ---
 ### Cool Reads
