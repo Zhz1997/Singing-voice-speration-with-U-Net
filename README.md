@@ -50,6 +50,7 @@ The purpose of this project is to decompose a music audio signal into its vocal 
 + Implementations: 
     + https://github.com/Hsankesara/DeepResearch/tree/master/UNet
     + https://github.com/jakeret/tf_unet
+    + https://github.com/Jeongseungwoo/Singing-Voice-Separation
     + [TensorFlow doc for Python](https://www.tensorflow.org/api_docs/python/tf/all_symbols)
 + Speedy compiler for jupyter:
     + https://numba.readthedocs.io/en/stable/user/5minguide.html
