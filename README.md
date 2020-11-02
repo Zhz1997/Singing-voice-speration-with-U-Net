@@ -50,10 +50,15 @@ The purpose of this project is to decompose a music audio signal into its vocal 
 + Implementations: 
     + https://github.com/Hsankesara/DeepResearch/tree/master/UNet
     + https://github.com/jakeret/tf_unet
+    + https://github.com/Jeongseungwoo/Singing-Voice-Separation
+    + [TensorFlow doc for Python](https://www.tensorflow.org/api_docs/python/tf/all_symbols)
 + Speedy compiler for jupyter:
     + https://numba.readthedocs.io/en/stable/user/5minguide.html
 ---
-<br>
-### References:
-<sup>1</sup> ![Singing Voice Separation With Deep U-NET Convolutiinal Networks](https://openaccess.city.ac.uk/id/eprint/19289/1/7bb8d1600fba70dd79408775cd0c37a4ff62.pdf)<br>
-<sup>2</sup> ![U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf)<br>
+<br>  
+
+### References  
+<sup>1</sup> [Singing Voice Separation With Deep U-NET Convolutiinal Networks](https://openaccess.city.ac.uk/id/eprint/19289/1/7bb8d1600fba70dd79408775cd0c37a4ff62.pdf)  
+<sup>2</sup> [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf)  
+<sup>3</sup> [MICCAI BraTS 2017: Scope | Section for Biomedical Image Analysis (SBIA)](https://www.med.upenn.edu/sbia/brats2017.html)  
+
