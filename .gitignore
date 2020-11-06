@@ -1,2 +1,11 @@
 # ipynb_checkpoints
 .ipynb_checkpoints
+__pycache__/
+
+# ignore data files
+MedleyDB_V2/
+DSD100_extracted/
+MedleyDB_V2_resized/
+DSD100_resized/
+MedleyDB_V2_Npz/
+DSD100_Npz/
