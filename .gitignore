@@ -2,10 +2,16 @@
 .ipynb_checkpoints
 __pycache__/
 
+# ignore .DS_Store
+.DS_Store
+data/.DS_Store
+
 # ignore data files
 MedleyDB_V2/
 DSD100_extracted/
 MedleyDB_V2_resized/
+output/
 DSD100_resized/
 MedleyDB_Npz/
 DSD100_Npz/
+MedleyDB_V2_Npz/
