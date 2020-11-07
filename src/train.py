@@ -1,6 +1,7 @@
 import librosa
 from librosa.util import find_files
 import numpy as np
+from unet import unet
 
 def readNpzToLists(filePath):
     fileList = find_files(filePath, ext="npz")
@@ -18,5 +19,11 @@ def readNpzToLists(filePath):
 
 if __name__ == '__main__':
     # load DSD100_Npz
-    mixList, instruList, vocalList = readNpzToLists("../DSD100_Npz/Dev")
+    mixListD, instruListD, vocalListD = readNpzToLists("../DSD100_Npz/Dev")
+    # load MedlyDb_Npz
+    mixListM, instruListM, vocalListM = readNpzToLists("../MedleyDB_Npz")
+    mixList = mixListD + mixListM
+    vocalList = vocalListD + vocalListM
+    instruList = instruListD + instruListM
+    
     unet(mixList, vocalList)
