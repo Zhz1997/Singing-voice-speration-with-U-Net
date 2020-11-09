@@ -3,6 +3,10 @@ from librosa.util import find_files
 import numpy as np
 from unet import unet
 import tensorflow as tf
+
+# Allow import config from parent directory
+import os, sys
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
 from config import *
 
 patchSize = 128
@@ -18,7 +22,7 @@ def readNpzToLists(filePath):
         instruList.append(data["acc"])
         vocalList.append(data["vocal"])
 
-    return mixList, instruList, vocalList 
+    return mixList, instruList, vocalList
 
 def getSampleFromList(mixMagList,targetMagList) :
     mixSampleList = []
@@ -55,7 +59,6 @@ if __name__ == '__main__':
 
 
     mix, target = getSampleFromList(mixMagList, vocalMagList)
-    unetModel = tf.estimator.Estimator(model_fn=unet, model_dir="./model")
+    unetModel = tf.compat.v1.estimator.Estimator(model_fn=unet, model_dir="./model")
     inputFn = tf.compat.v1.estimator.inputs.numpy_input_fn(x = {"mix":mix}, y = target, batch_size=16, shuffle=False, num_epochs=40)
     unetModel.train(input_fn = inputFn)
-
