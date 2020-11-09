@@ -6,6 +6,9 @@ __pycache__/
 .DS_Store
 data/.DS_Store
 
+# ignore virtual environment
+venv/
+
 # ignore data files
 MedleyDB_V2/
 DSD100_extracted/
