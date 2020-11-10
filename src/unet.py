@@ -9,7 +9,7 @@ def unet(features, labels, mode) :
     input_layer = tf.reshape(features['mix'],input_shape)
 
     # # Convolutional Layer 1
-    conv1 = BatchNormalization()(tf.keras.layers.Conv2D(filters=16, kernel_size=[5,5],
+    conv1 = BatchNormalization()(Conv2D(filters=16, kernel_size=[5,5],
                                                     strides=[2,2], padding="same", activation=tf.nn.leaky_relu,
                                                     input_shape=input_shape[1:])(input_layer))
 
