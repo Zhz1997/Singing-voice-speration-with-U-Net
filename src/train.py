@@ -62,3 +62,4 @@ if __name__ == '__main__':
     unetModel = tf.compat.v1.estimator.Estimator(model_fn=unet, model_dir="./model")
     inputFn = tf.compat.v1.estimator.inputs.numpy_input_fn(x = {"mix":mix}, y = target, batch_size=16, shuffle=False, num_epochs=40)
     unetModel.train(input_fn = inputFn)
+
