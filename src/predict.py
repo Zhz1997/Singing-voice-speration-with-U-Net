@@ -9,15 +9,21 @@ if __name__ == '__main__':
     mix_wav, _ = load("../wav_files/mixture.wav", sr=SAMPLE_RATE)
     mix_wav_mag, mix_wav_phase = magphase(stft(mix_wav, n_fft=WINDOW_SIZE, hop_length=HOP_LENGTH))
 
+    vocal_wav, _ = load("../wav_files/vocals.wav", sr=SAMPLE_RATE)
+    vocal_wav_mag, vocal_wav_phase = magphase(stft(vocal_wav, n_fft=WINDOW_SIZE, hop_length=HOP_LENGTH))
+
     START = 0
     END = START + 128
 
     mix_wav_mag=mix_wav_mag[:, START:END]
     mix_wav_phase=mix_wav_phase[:, START:END]
 
+    vocal_wav_mag=vocal_wav_mag[:, START:END]
+    vocal_wav_phase=vocal_wav_phase[:, START:END]
+
     # load saved model
-    #model = keras.models.load_model('../models/vocal_20_test_model.h5')
-    model = keras.models.load_model('../models/vocal_20.h5')
+    model = keras.models.load_model('../models/vocal_20_test_model.h5')
+    #model = keras.models.load_model('../models/vocal_20.h5')
 
     # predict and write into file
     X=mix_wav_mag[1:].reshape(1, 512, 128, 1)
@@ -30,4 +36,7 @@ if __name__ == '__main__':
         , win_length=WINDOW_SIZE, hop_length=HOP_LENGTH), SAMPLE_RATE, norm=True)
     write_wav(f'../wav_files/mix_downsampled.wav', istft(
         mix_wav_mag * mix_wav_phase
+        , win_length=WINDOW_SIZE, hop_length=HOP_LENGTH), SAMPLE_RATE, norm=True)
+    write_wav(f'../wav_files/vocals_downsampled.wav', istft(
+        vocal_wav_mag * vocal_wav_phase
         , win_length=WINDOW_SIZE, hop_length=HOP_LENGTH), SAMPLE_RATE, norm=True)
