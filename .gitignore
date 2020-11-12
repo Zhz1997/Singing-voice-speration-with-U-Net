@@ -15,3 +15,4 @@ wav_files/*
 !wav_files/vocal_20_sample_py.wav
 
 models/*
+!models/models.txt
