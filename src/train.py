@@ -1,61 +1,40 @@
-import librosa
-from librosa.util import find_files
 import numpy as np
-from unet import unet
-import tensorflow as tf
+from keras import Input
+from keras.optimizers import Adam
+from keras.utils import multi_gpu_model
 from config import *
+from model import unet
+from librosa.util import find_files
 
-patchSize = 128
 
-def readNpzToLists(filePath):
-    fileList = find_files(filePath, ext="npz")
-    mixList = []
-    instruList = []
-    vocalList = []
-    for file in fileList:
-        data = np.load(file)
-        mixList.append(data["mix"])
-        instruList.append(data["acc"])
-        vocalList.append(data["vocal"])
+def load_npz(target=None, first=None):
+    npz_files = find_files('../DSD100_Npz/Dev', ext="npz")[:first]
+    # npz_files = find_files('../numpy', ext="npz")[:first]
+    for file in npz_files:
+        npz = np.load(file)
+        assert(npz["mix"].shape == npz[target].shape)
+        yield npz['mix'], npz[target]
 
-    return mixList, instruList, vocalList 
-
-def getSampleFromList(mixMagList,targetMagList) :
-    mixSampleList = []
-    targetSampleList = []
-    for mix, target in zip(mixMagList,targetMagList) :
-        starts = np.random.randint(0, mix.shape[1] - patchSize, (mix.shape[1] - patchSize) // 10)
+def sampling(mix_mag, target_mag):
+    X, y = [], []
+    for mix, target in zip(mix_mag, target_mag):
+        starts = np.random.randint(0, mix.shape[1] - PATCH_SIZE, (mix.shape[1] - PATCH_SIZE) // SAMPLE_STRIDE)
         for start in starts:
-            end = start + patchSize
-            mixSampleList.append(mix[1:, start:end, np.newaxis])
-            targetSampleList.append(target[1:, start:end, np.newaxis])
-    return np.asarray(mixSampleList, dtype=np.float32), np.asarray(targetSampleList, dtype=np.float32)
-
-def getMag(specList):
-    result = []
-    for s in specList:
-        mag, _ = librosa.magphase(s)
-        result.append(mag)
-    return result
+            end = start + PATCH_SIZE
+            X.append(mix[1:, start:end, np.newaxis])
+            y.append(target[1:, start:end, np.newaxis])
+    return np.asarray(X, dtype=np.float32), np.asarray(y, dtype=np.float32)
 
 
 if __name__ == '__main__':
-    # load DSD100_Npz
-    mixListD, instruListD, vocalListD = readNpzToLists("../DSD100_Npz/Dev")
-    # load MedlyDb_Npz
-    mixListM, instruListM, vocalListM = readNpzToLists("../MedleyDB_Npz")
+    mix_mag, target_mag = zip(*load_npz(target='vocal', first=-1))
 
-    mixList = mixListD + mixListM
-    vocalList = vocalListD + vocalListM
-    instruList = instruListD + instruListM
+    model = unet()
+    model.compile(optimizer='adam', loss='mean_absolute_error')
 
-    mixMagList = getMag(mixList)
-    vocalMagList = getMag(vocalList)
-    instruMagList = getMag(instruList)
+    for e in range(EPOCH):
+        X, y = sampling(mix_mag, target_mag)
+        model.fit(X, y, batch_size=BATCH, verbose=1, validation_split=0.01)
+        model.save('../models/vocal_{:0>2d}.h5'.format(e+1), overwrite=True)
 
-
-    mix, target = getSampleFromList(mixMagList, vocalMagList)
-    unetModel = tf.estimator.Estimator(model_fn=unet, model_dir="./model")
-    inputFn = tf.compat.v1.estimator.inputs.numpy_input_fn(x = {"mix":mix}, y = target, batch_size=16, shuffle=False, num_epochs=40)
-    unetModel.train(input_fn = inputFn)
 

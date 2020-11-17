@@ -9,3 +9,10 @@ MedleyDB_V2_resized/
 DSD100_resized/
 MedleyDB_Npz/
 DSD100_Npz/
+
+wav_files/*
+!wav_files/mixture.wav
+!wav_files/vocal_20_sample_py.wav
+
+models/*
+!models/models.txt
